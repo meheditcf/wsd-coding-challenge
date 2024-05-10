@@ -1,4 +1,4 @@
-// Mock service for movie-related operations
+// Movie service for movie-related operations
 const movieList = [
     {
         id: 1,
@@ -116,10 +116,9 @@ const movieList = [
 const movieService = {
     getAllMovies: () => {
         return new Promise((resolve) => {
-            // Simulate an asynchronous API call
             setTimeout(() => {
                 resolve(movieList);
-            }, 1000);
+            }, 200);
         });
     },
     searchMovies: (query) => {

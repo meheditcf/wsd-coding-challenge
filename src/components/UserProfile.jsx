@@ -2,6 +2,7 @@ import React, {useContext, useState} from 'react';
 import userIcon from '../assets/userIcon.png';
 import {UserContext} from "../App.jsx";
 import {useNavigate} from "react-router-dom";
+import {ROUTES} from "../constants/routes.js";
 
 const UserProfile = () => {
     const {user, setUser} = useContext(UserContext);
@@ -18,7 +19,7 @@ const UserProfile = () => {
 
     const handleSignOut = () => {
         setUser(null);
-        navigate("/");
+        navigate(ROUTES.HOME);
     }
 
     return user ? <div className="relative">
@@ -36,13 +37,13 @@ const UserProfile = () => {
                     <div className="font-medium truncate">{email}</div>
                 </div>
                 <div className="py-1">
-                    <a href="#"
-                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Favorite
-                        Movies</a>
+                    <p onClick={() => navigate(ROUTES.FAVORITE_MOVIES)}
+                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">Favorite
+                        Movies</p>
                 </div>
                 <div className="py-1">
                     <p onClick={handleSignOut}
-                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign
+                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">Sign
                         out</p>
                 </div>
             </div>

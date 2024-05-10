@@ -4,6 +4,7 @@ import MovieSearch from "./MovieSearch.jsx";
 import MovieItem from "./MovieItem.jsx";
 import UserProfile from "./UserProfile.jsx";
 import {UserContext} from "../App.jsx";
+import Swal from "sweetalert2";
 
 const MovieList = () => {
     const [movies, setMovies] = useState([]);
@@ -34,49 +35,30 @@ const MovieList = () => {
     const handleAddToFavorites = (movie) => {
         const favorites = user?.favorites || [];
         const isAlreadyAdded = favorites.some((favMovie) => favMovie.id === movie.id);
+        const alertMsg = isAlreadyAdded ? 'Removed from favorites' : 'Added to favorites';
 
-        if (!isAlreadyAdded) {
-            const updatedFavorites = [...favorites, {
-                ...movie,
-                isFavorite: true
-            }];
-            setFilteredMovies(filteredMovies.map((filteredMovie) => {
-                    if (filteredMovie.id === movie.id) {
-                        return {
-                            ...filteredMovie,
-                            isFavorite: true
-                        }
-                    }
-                    return filteredMovie;
-                }
-            ))
-            setUser({
-                ...user,
-                favorites: updatedFavorites
-            });
+        const updatedFavorites = isAlreadyAdded
+            ? favorites.filter((favMovie) => favMovie.id !== movie.id)
+            : [...favorites, {...movie, isFavorite: true}];
 
-        } else {
-            const updatedFavorites = favorites.filter((favMovie) => favMovie.id !== movie.id);
-            setUser({
-                ...user,
-                favorites: updatedFavorites
-            });
-            setFilteredMovies(filteredMovies.map((filteredMovie) => {
-                if (filteredMovie.id === movie.id) {
-                    return {
-                        ...filteredMovie,
-                        isFavorite: false
-                    }
-                }
-                return filteredMovie;
-            }))
-        }
-    }
+        setUser({...user, favorites: updatedFavorites});
+
+        setFilteredMovies((filteredMovies) =>
+            filteredMovies.map((filteredMovie) =>
+                filteredMovie.id === movie.id ? {...filteredMovie, isFavorite: !isAlreadyAdded} : filteredMovie
+            )
+        );
+
+        Swal.fire({
+            title: alertMsg,
+            icon: 'success',
+        });
+    };
 
 
     const movieListEl = filteredMovies && filteredMovies.length > 0 ? <div className="grid grid-cols-4 gap-4">
         {filteredMovies.map((movie) => (
-            <MovieItem movie={movie} key={movie.id} handleAddToFavorites={handleAddToFavorites}/>
+            <MovieItem movie={movie} key={movie.id} handleChange={handleAddToFavorites}/>
         ))}
     </div> : <div className="text-center">No movies found</div>;
 

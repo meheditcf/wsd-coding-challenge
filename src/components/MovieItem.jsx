@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MovieItem = ({movie, handleAddToFavorites}) => {
+const MovieItem = ({movie, handleChange}) => {
     const {
         title,
         cast,
@@ -31,7 +31,10 @@ const MovieItem = ({movie, handleAddToFavorites}) => {
             <div className="px-6 py-4">
                 <button
                     className={`${isFavorite ? 'bg-red-500 hover:bg-red-700' : 'bg-blue-500 hover:bg-blue-700'} text-white font-bold py-2 px-4 rounded`}
-                    onClick={() => handleAddToFavorites(movie)}>
+                    onClick={() => {
+                        handleChange(movie)
+                    }
+                    }>
                     {
                         isFavorite ? 'Remove from favorites' : 'Add to favorites'
                     }

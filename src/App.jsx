@@ -3,6 +3,8 @@ import RegisterForm from "./components/RegisterForm.jsx";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import MovieList from "./components/MovieList.jsx";
 import {createContext, useState} from "react";
+import {ROUTES} from "./constants/routes.js";
+import FavoriteMovieList from "./components/FavouriteList";
 
 export const UserContext = createContext('user')
 
@@ -13,8 +15,9 @@ function App() {
         <UserContext.Provider value={{user, setUser}}>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<RegisterForm/>}/>
-                    <Route path="/movie-list" element={<MovieList/>}/>
+                    <Route path={ROUTES.HOME} element={<RegisterForm/>}/>
+                    <Route path={ROUTES.MOVIE_LIST} element={<MovieList/>}/>
+                    <Route path={ROUTES.FAVORITE_MOVIES} element={<FavoriteMovieList/>}/>
                 </Routes>
             </BrowserRouter>
         </UserContext.Provider>
